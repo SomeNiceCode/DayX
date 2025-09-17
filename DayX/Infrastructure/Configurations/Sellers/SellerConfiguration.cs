@@ -11,60 +11,39 @@ namespace DayX.Infrastructure.Configurations.Sellers
     /// </summary>
     public class SellerConfiguration : IEntityTypeConfiguration<Seller>
     {
-        /// <summary>
-        /// Настраивает модель <see cref="Seller"/> с помощью Fluent API.
-        /// </summary>
-        /// <param name="builder">Построитель конфигурации для сущности <see cref="Seller"/>.</param>
         public void Configure(EntityTypeBuilder<Seller> builder)
         {
-            /// <summary>
-            /// Устанавливаем первичный ключ.
-            /// </summary>
+            // Первичный ключ
             builder.HasKey(s => s.Id);
 
-            /// <summary>
-            /// Настройка поля UserId — опциональное.
-            /// </summary>
+            // UserId — опциональное
             builder.Property(s => s.UserId)
                    .IsRequired(false);
 
-            /// <summary>
-            /// Настройка поля Name — обязательное, с ограничением длины.
-            /// </summary>
+            // Name — обязательное, макс. длина 200
             builder.Property(s => s.Name)
                    .IsRequired()
                    .HasMaxLength(200);
 
-            /// <summary>
-            /// Настройка поля CreatedAt — обязательное.
-            /// </summary>
+            // CreatedAt — обязательное
             builder.Property(s => s.CreatedAt)
                    .IsRequired();
 
-            /// <summary>
-            /// Связь с пользователем (один пользователь может быть продавцом).
-            /// </summary>
+            // Связь с пользователем (один пользователь может быть продавцом)
             builder.HasOne<User>()
                    .WithMany()
                    .HasForeignKey(s => s.UserId)
                    .OnDelete(DeleteBehavior.SetNull);
 
-            /// <summary>
-            /// Связь с товарами (один продавец — много товаров).
-            /// </summary>
+            // Связь с товарами (один продавец — много товаров)
             builder.HasMany(s => s.Products)
                    .WithOne()
                    .HasForeignKey("SellerId")
                    .OnDelete(DeleteBehavior.Cascade);
 
-            /// <summary>
-            /// Связь со скидками (один продавец — много скидок).
-            /// </summary>
-            builder.HasMany(s => s.Discounts)
-                   .WithOne()
-                   .HasForeignKey("SellerId")
-                   .OnDelete(DeleteBehavior.Cascade);
+            // ❌ Блок со скидками убран — связь настраивается в DiscountConfiguration
         }
     }
 }
+
 

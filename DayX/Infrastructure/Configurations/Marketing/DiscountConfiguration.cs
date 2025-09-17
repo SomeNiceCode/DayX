@@ -11,40 +11,37 @@ namespace DayX.Infrastructure.Configurations.Marketing
     /// </summary>
     public class DiscountConfiguration : IEntityTypeConfiguration<Discount>
     {
-        /// <summary>
-        /// Настраивает модель <see cref="Discount"/> с помощью Fluent API.
-        /// </summary>
-        /// <param name="builder">Построитель конфигурации для сущности <see cref="Discount"/>.</param>
         public void Configure(EntityTypeBuilder<Discount> builder)
         {
             // Первичный ключ
             builder.HasKey(d => d.Id);
 
-            // Заголовок — обязательный, макс. длина 200
+            // Title — обязательное, макс. длина 200
             builder.Property(d => d.Title)
                    .IsRequired()
                    .HasMaxLength(200);
 
-            // Процент — обязательный, decimal(5,2)
+            // Percentage — обязательное, decimal(5,2)
             builder.Property(d => d.Percentage)
                    .IsRequired()
                    .HasColumnType("decimal(5,2)");
 
-            // Даты — обязательные
+            // StartDate — обязательное
             builder.Property(d => d.StartDate)
                    .IsRequired();
 
+            // EndDate — обязательное
             builder.Property(d => d.EndDate)
                    .IsRequired();
 
-            // FK к продавцу — обязательный
+            // SellerId — обязательное
             builder.Property(d => d.SellerId)
                    .IsRequired();
 
             // Связь с продавцом (многие скидки — один продавец)
             builder.HasOne(d => d.Seller)
                    .WithMany(s => s.Discounts)
-                   .HasForeignKey(d => d.SellerId) // Явно указываем FK
+                   .HasForeignKey(d => d.SellerId)
                    .OnDelete(DeleteBehavior.Cascade);
         }
     }
