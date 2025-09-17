@@ -1,11 +1,11 @@
 ﻿namespace DayX.Database.Catalog
 {
     /// <summary>
-    /// Представляет товар в маркетплейсе, включая базовые данные, изображения, атрибуты и теги.
+    /// Представляет товар в маркетплейсе, включая базовые данные, изображения, атрибуты, теги и владельца (продавца).
     /// </summary>
     public class Product
     {
-        //  Приватные коллекции для инкапсуляции
+        // Приватные коллекции для инкапсуляции
         private readonly List<ProductAttributeValue> _attributeValues = new();
         private readonly List<ProductImage> _images = new();
         private readonly List<ProductTag> _tags = new();
@@ -29,6 +29,11 @@
         /// Идентификатор категории, к которой относится продукт.
         /// </summary>
         public Guid CategoryId { get; private set; }
+
+        /// <summary>
+        /// Идентификатор продавца, которому принадлежит продукт.
+        /// </summary>
+        public Guid SellerId { get; private set; }
 
         /// <summary>
         /// Коллекция атрибутов продукта (например, "Материал: Хлопок").
@@ -56,8 +61,9 @@
         /// <param name="title">Название продукта.</param>
         /// <param name="description">Описание продукта.</param>
         /// <param name="categoryId">Идентификатор категории.</param>
+        /// <param name="sellerId">Идентификатор продавца.</param>
         /// <returns>Созданный экземпляр Product.</returns>
-        public static Product Create(string title, string description, Guid categoryId)
+        public static Product Create(string title, string description, Guid categoryId, Guid sellerId)
         {
             if (string.IsNullOrWhiteSpace(title))
                 throw new ArgumentException("Product title cannot be empty.");
@@ -65,19 +71,22 @@
             if (categoryId == Guid.Empty)
                 throw new ArgumentException("Invalid category ID.");
 
+            if (sellerId == Guid.Empty)
+                throw new ArgumentException("Invalid seller ID.");
+
             return new Product
             {
                 Id = Guid.NewGuid(),
                 Title = title,
                 Description = description,
-                CategoryId = categoryId
+                CategoryId = categoryId,
+                SellerId = sellerId
             };
         }
 
         /// <summary>
         /// Обновляет название продукта.
         /// </summary>
-        /// <param name="newTitle">Новое название.</param>
         public void UpdateTitle(string newTitle)
         {
             if (string.IsNullOrWhiteSpace(newTitle))
@@ -89,7 +98,6 @@
         /// <summary>
         /// Обновляет описание продукта.
         /// </summary>
-        /// <param name="newDescription">Новое описание.</param>
         public void UpdateDescription(string newDescription)
         {
             Description = newDescription;
@@ -98,7 +106,6 @@
         /// <summary>
         /// Назначает новую категорию продукту.
         /// </summary>
-        /// <param name="categoryId">Идентификатор категории.</param>
         public void AssignCategory(Guid categoryId)
         {
             if (categoryId == Guid.Empty)
@@ -108,9 +115,19 @@
         }
 
         /// <summary>
+        /// Назначает нового продавца продукту.
+        /// </summary>
+        public void AssignSeller(Guid sellerId)
+        {
+            if (sellerId == Guid.Empty)
+                throw new ArgumentException("Invalid seller ID.");
+
+            SellerId = sellerId;
+        }
+
+        /// <summary>
         /// Добавляет атрибут к продукту.
         /// </summary>
-        /// <param name="value">Атрибут продукта.</param>
         public void AddAttributeValue(ProductAttributeValue value)
         {
             if (value == null) throw new ArgumentNullException(nameof(value));
@@ -120,7 +137,6 @@
         /// <summary>
         /// Добавляет изображение к продукту.
         /// </summary>
-        /// <param name="image">Изображение продукта.</param>
         public void AddImage(ProductImage image)
         {
             if (image == null) throw new ArgumentNullException(nameof(image));
@@ -130,12 +146,10 @@
         /// <summary>
         /// Добавляет тег к продукту.
         /// </summary>
-        /// <param name="tag">Тег продукта.</param>
         public void AddTag(ProductTag tag)
         {
             if (tag == null) throw new ArgumentNullException(nameof(tag));
             _tags.Add(tag);
         }
     }
-
 }

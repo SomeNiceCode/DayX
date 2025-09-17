@@ -32,17 +32,17 @@ namespace DayX.Infrastructure.Configurations
             builder.HasOne<Category>()
                 .WithMany()
                 .HasForeignKey(p => p.CategoryId)
-                .OnDelete(DeleteBehavior.Restrict); // ❗ Защита от каскадного удаления категории
+                .OnDelete(DeleteBehavior.Restrict); //  Защита от каскадного удаления категории
 
             //  Коллекция атрибутов
             builder.HasMany<ProductAttributeValue>()
                 .WithOne()
                 .HasForeignKey("ProductId")
-                .OnDelete(DeleteBehavior.Cascade); // ✅ Удаление атрибутов при удалении продукта
+                .OnDelete(DeleteBehavior.Cascade); //  Удаление атрибутов при удалении продукта
 
             builder.Metadata
                 .FindNavigation(nameof(Product.AttributeValues))!
-                .SetPropertyAccessMode(PropertyAccessMode.Field); // 🔒 Доступ к _attributeValues
+                .SetPropertyAccessMode(PropertyAccessMode.Field); //  Доступ к _attributeValues
 
             //  Коллекция изображений
             builder.HasMany<ProductImage>()
@@ -52,7 +52,7 @@ namespace DayX.Infrastructure.Configurations
 
             builder.Metadata
                 .FindNavigation(nameof(Product.Images))!
-                .SetPropertyAccessMode(PropertyAccessMode.Field); // 🔒 Доступ к _images
+                .SetPropertyAccessMode(PropertyAccessMode.Field); //  Доступ к _images
 
             //  Коллекция тегов
             builder.HasMany<ProductTag>()
@@ -62,7 +62,7 @@ namespace DayX.Infrastructure.Configurations
 
             builder.Metadata
                 .FindNavigation(nameof(Product.Tags))!
-                .SetPropertyAccessMode(PropertyAccessMode.Field); // 🔒 Доступ к _tags
+                .SetPropertyAccessMode(PropertyAccessMode.Field); //  Доступ к _tags
 
             //  Индексы для быстрого поиска
             builder.HasIndex(p => p.Title);
