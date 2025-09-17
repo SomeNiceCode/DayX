@@ -28,7 +28,7 @@
         /// <summary>
         /// Дата и время успешной оплаты.
         /// </summary>
-        public DateTime PaidAt { get; private set; }
+        public DateTime? PaidAt { get; private set; }
 
         /// <summary>
         /// Приватный конструктор для EF Core.

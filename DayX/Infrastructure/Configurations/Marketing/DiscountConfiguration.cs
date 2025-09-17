@@ -17,49 +17,34 @@ namespace DayX.Infrastructure.Configurations.Marketing
         /// <param name="builder">Построитель конфигурации для сущности <see cref="Discount"/>.</param>
         public void Configure(EntityTypeBuilder<Discount> builder)
         {
-            /// <summary>
-            /// Устанавливаем первичный ключ.
-            /// </summary>
+            // Первичный ключ
             builder.HasKey(d => d.Id);
 
-            /// <summary>
-            /// Настройка поля Title — обязательное, с ограничением длины.
-            /// </summary>
+            // Заголовок — обязательный, макс. длина 200
             builder.Property(d => d.Title)
                    .IsRequired()
                    .HasMaxLength(200);
 
-            /// <summary>
-            /// Настройка поля Percentage — обязательное, decimal(5,2).
-            /// </summary>
+            // Процент — обязательный, decimal(5,2)
             builder.Property(d => d.Percentage)
                    .IsRequired()
                    .HasColumnType("decimal(5,2)");
 
-            /// <summary>
-            /// Настройка поля StartDate — обязательное.
-            /// </summary>
+            // Даты — обязательные
             builder.Property(d => d.StartDate)
                    .IsRequired();
 
-            /// <summary>
-            /// Настройка поля EndDate — обязательное.
-            /// </summary>
             builder.Property(d => d.EndDate)
                    .IsRequired();
 
-            /// <summary>
-            /// Настройка поля SellerId — обязательное.
-            /// </summary>
+            // FK к продавцу — обязательный
             builder.Property(d => d.SellerId)
                    .IsRequired();
 
-            /// <summary>
-            /// Связь с продавцом (многие скидки — один продавец).
-            /// </summary>
+            // Связь с продавцом (многие скидки — один продавец)
             builder.HasOne(d => d.Seller)
                    .WithMany(s => s.Discounts)
-                   .HasForeignKey(d => d.SellerId)
+                   .HasForeignKey(d => d.SellerId) // Явно указываем FK
                    .OnDelete(DeleteBehavior.Cascade);
         }
     }

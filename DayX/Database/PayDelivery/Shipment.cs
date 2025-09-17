@@ -23,7 +23,7 @@
         /// <summary>
         /// Дата и время отправки заказа.
         /// </summary>
-        public DateTime ShippedAt { get; private set; }
+        public DateTime? ShippedAt { get; private set; }
 
         /// <summary>
         /// Дата и время доставки заказа (если доставлен).

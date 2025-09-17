@@ -36,13 +36,13 @@ namespace DayX.Infrastructure.Configurations.PayDelivery
                    .HasMaxLength(100);
 
             /// <summary>
-            /// Настройка поля ShippedAt — опциональное.
+            /// Настройка поля ShippedAt — опциональное (может быть null до отправки).
             /// </summary>
             builder.Property(s => s.ShippedAt)
                    .IsRequired(false);
 
             /// <summary>
-            /// Настройка поля DeliveredAt — опциональное.
+            /// Настройка поля DeliveredAt — опциональное (может быть null до доставки).
             /// </summary>
             builder.Property(s => s.DeliveredAt)
                    .IsRequired(false);
@@ -71,4 +71,3 @@ namespace DayX.Infrastructure.Configurations.PayDelivery
         }
     }
 }
-
