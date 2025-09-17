@@ -48,7 +48,7 @@ namespace DayX.Infrastructure.Configurations.Marketing
             builder.HasOne<Discount>()
                    .WithMany()
                    .HasForeignKey(pd => pd.DiscountId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

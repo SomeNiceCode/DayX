@@ -880,7 +880,7 @@ namespace DayX.Migrations
                     b.HasOne("DayX.Database.Marketing.Discount", null)
                         .WithMany()
                         .HasForeignKey("DiscountId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DayX.Database.Catalog.Product", null)

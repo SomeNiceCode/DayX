@@ -381,8 +381,7 @@ namespace DayX.Migrations
                         name: "FK_ProductDiscounts_Discounts_DiscountId",
                         column: x => x.DiscountId,
                         principalTable: "Discounts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ProductDiscounts_Products_ProductId",
                         column: x => x.ProductId,
